@@ -1,0 +1,60 @@
+{
+  "name": "ccman",
+  "version": "3.3.4",
+  "type": "module",
+  "description": "Manage Codex, Claude Code, Gemini CLI, OpenCode, and MCP API service provider configurations",
+  "main": "./dist/index.js",
+  "bin": {
+    "ccman": "./dist/index.js"
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "keywords": [
+    "codex",
+    "claude",
+    "claude-code",
+    "gemini",
+    "gemini-cli",
+    "opencode",
+    "mcp",
+    "model-context-protocol",
+    "ai",
+    "api",
+    "config",
+    "manager",
+    "cli"
+  ],
+  "author": "2ue",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/2ue/ccman.git",
+    "directory": "packages/cli"
+  },
+  "homepage": "https://github.com/2ue/ccman#readme",
+  "bugs": {
+    "url": "https://github.com/2ue/ccman/issues"
+  },
+  "dependencies": {
+    "@iarna/toml": "^2.2.5",
+    "chalk": "^4.1.2",
+    "commander": "^11.0.0",
+    "inquirer": "^8.2.6",
+    "proper-lockfile": "^4.1.2",
+    "webdav": "^5.8.0"
+  },
+  "devDependencies": {
+    "@types/inquirer": "^8.2.5",
+    "tsx": "^4.0.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "scripts": {
+    "build": "tsup",
+    "dev": "NODE_ENV=development tsx src/index.ts",
+    "clean": "rm -rf dist"
+  }
+}
