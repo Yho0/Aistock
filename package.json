@@ -31,11 +31,11 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Yho0/ccman-openclaw-version.git"
+    "url": "git+https://github.com/Yho0/Aistock.git"
   },
-  "homepage": "https://github.com/Yho0/ccman-openclaw-version#readme",
+  "homepage": "https://github.com/Yho0/Aistock#readme",
   "bugs": {
-    "url": "https://github.com/Yho0/ccman-openclaw-version/issues"
+    "url": "https://github.com/Yho0/Aistock/issues"
   },
   "dependencies": {
     "@iarna/toml": "^2.2.5",

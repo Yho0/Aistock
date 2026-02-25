@@ -32,7 +32,7 @@ Aistock 的核心功能是自动化配置文件的切换：
 
 如果你更喜欢手动编辑配置文件，或者只使用一个服务商从不切换，可能不需要这个工具。
 
-📖 更多信息：[GitHub 仓库](https://github.com/Yho0/ccman-openclaw-version) - 包含手动配置方式和详细对比分析
+📖 更多信息：[GitHub 仓库](https://github.com/Yho0/Aistock) - 包含手动配置方式和详细对比分析
 
 ---
 
@@ -44,7 +44,7 @@ npm install -g aistock
 
 **要求**：Node.js >= 18.0.0
 
-**Desktop 版本**：如果你更喜欢图形界面，可以从 [GitHub Releases](https://github.com/Yho0/ccman-openclaw-version/releases) 下载 Desktop 应用（macOS/Windows/Linux）。
+**Desktop 版本**：如果你更喜欢图形界面，可以从 [GitHub Releases](https://github.com/Yho0/Aistock/releases) 下载 Desktop 应用（macOS/Windows/Linux）。
 
 ---
 
@@ -377,7 +377,7 @@ MIT
 
 ## 相关链接
 
-- [GitHub 仓库](https://github.com/Yho0/ccman-openclaw-version)
-- [问题反馈](https://github.com/Yho0/ccman-openclaw-version/issues)
-- [更新日志](https://github.com/Yho0/ccman-openclaw-version/blob/main/CHANGELOG.md)
-- [Desktop 版本](https://github.com/Yho0/ccman-openclaw-version/releases)（图形界面）
+- [GitHub 仓库](https://github.com/Yho0/Aistock)
+- [问题反馈](https://github.com/Yho0/Aistock/issues)
+- [更新日志](https://github.com/Yho0/Aistock/blob/main/CHANGELOG.md)
+- [Desktop 版本](https://github.com/Yho0/Aistock/releases)（图形界面）
