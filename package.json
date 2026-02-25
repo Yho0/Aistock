@@ -1,10 +1,11 @@
 {
-  "name": "ccman",
+  "name": "aistock",
   "version": "3.3.4",
   "type": "module",
-  "description": "Manage Codex, Claude Code, Gemini CLI, OpenCode, and MCP API service provider configurations",
+  "description": "Aistock CLI for managing Codex, Claude Code, Gemini CLI, OpenCode, and MCP API service provider configurations",
   "main": "./dist/index.js",
   "bin": {
+    "aistock": "./dist/index.js",
     "ccman": "./dist/index.js"
   },
   "files": [
@@ -12,6 +13,7 @@
     "README.md"
   ],
   "keywords": [
+    "aistock",
     "codex",
     "claude",
     "claude-code",
@@ -30,12 +32,11 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/2ue/ccman.git",
-    "directory": "packages/cli"
+    "url": "https://github.com/Yho0/ccman-openclaw-version.git"
   },
-  "homepage": "https://github.com/2ue/ccman#readme",
+  "homepage": "https://github.com/Yho0/ccman-openclaw-version#readme",
   "bugs": {
-    "url": "https://github.com/2ue/ccman/issues"
+    "url": "https://github.com/Yho0/ccman-openclaw-version/issues"
   },
   "dependencies": {
     "@iarna/toml": "^2.2.5",

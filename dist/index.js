@@ -17,7 +17,7 @@ var init_package = __esm({
       name: "@ccman/core",
       version: "3.3.4",
       type: "module",
-      description: "Core business logic for ccman - Manage Codex, Claude Code, Gemini CLI, and MCP configurations",
+      description: "Core business logic for aistock - Manage Codex, Claude Code, Gemini CLI, and MCP configurations",
       main: "./dist/index.js",
       types: "./dist/index.d.ts",
       files: [
@@ -580,7 +580,7 @@ function writeMCPConfigForApp(app, _provider) {
   }
   appConfig.mcpServers = {
     ...ccmanMCPs,
-    // ccman 管理的
+    // aistock 管理的
     ...userMCPs
     // 用户手动配置的（优先级更高）
   };
@@ -1770,7 +1770,7 @@ function decryptApiKey(encryptedApiKey, password) {
 function encryptProviders(providers, password) {
   return providers.map((provider) => {
     if (typeof provider.apiKey !== "string" || provider.apiKey.length === 0) {
-      throw new Error(`\u670D\u52A1\u5546 "${provider.name}" \u7684 API Key \u4E3A\u7A7A\u6216\u7F3A\u5931\uFF0C\u8BF7\u5148\u5728 ccman \u4E2D\u8865\u5168\u540E\u518D\u8FDB\u884C\u540C\u6B65`);
+      throw new Error(`\u670D\u52A1\u5546 "${provider.name}" \u7684 API Key \u4E3A\u7A7A\u6216\u7F3A\u5931\uFF0C\u8BF7\u5148\u5728 aistock \u4E2D\u8865\u5168\u540E\u518D\u8FDB\u884C\u540C\u6B65`);
     }
     return {
       ...provider,
@@ -2780,7 +2780,7 @@ async function ensureConfigExists() {
   const { configCommand: configCommand2 } = await Promise.resolve().then(() => (init_config2(), config_exports));
   const cmd = new Command();
   configCommand2(cmd);
-  await cmd.parseAsync(["node", "ccman", "config"]);
+  await cmd.parseAsync(["node", "aistock", "config"]);
   return loadSyncConfig();
 }
 var init_helpers = __esm({
@@ -2900,7 +2900,7 @@ function uploadCommand(program2) {
       console.log(chalk6.gray(`  ${config.webdavUrl}${config.remoteDir}/.ccman/codex.json`));
       console.log(chalk6.gray(`  ${config.webdavUrl}${config.remoteDir}/.ccman/claude.json`));
       console.log();
-      console.log(chalk6.blue("\u{1F4A1} \u5176\u4ED6\u8BBE\u5907\u53EF\u901A\u8FC7 'ccman sync download' \u83B7\u53D6\u914D\u7F6E\n"));
+      console.log(chalk6.blue("\u{1F4A1} \u5176\u4ED6\u8BBE\u5907\u53EF\u901A\u8FC7 'aistock sync download' \u83B7\u53D6\u914D\u7F6E\n"));
     } catch (error) {
       console.error(chalk6.red(`
 \u274C ${error.message}
@@ -3070,7 +3070,7 @@ function statusCommand(program2) {
       if (!config) {
         console.log(chalk9.yellow("\u26A0\uFE0F  \u672A\u914D\u7F6E WebDAV \u540C\u6B65"));
         console.log();
-        console.log(chalk9.blue("\u{1F4A1} \u5F00\u59CB\u914D\u7F6E: ccman sync config\n"));
+        console.log(chalk9.blue("\u{1F4A1} \u5F00\u59CB\u914D\u7F6E: aistock sync config\n"));
         return;
       }
       console.log(chalk9.bold("WebDAV \u914D\u7F6E:"));
@@ -3093,9 +3093,9 @@ function statusCommand(program2) {
       }
       console.log();
       console.log(chalk9.bold("\u540C\u6B65\u5EFA\u8BAE:"));
-      console.log(chalk9.blue("  \u{1F4A1} \u4E0A\u4F20\u5230\u4E91\u7AEF: ccman sync upload"));
-      console.log(chalk9.blue("  \u{1F4A1} \u4ECE\u4E91\u7AEF\u4E0B\u8F7D: ccman sync download"));
-      console.log(chalk9.blue("  \u{1F4A1} \u667A\u80FD\u5408\u5E76: ccman sync merge"));
+      console.log(chalk9.blue("  \u{1F4A1} \u4E0A\u4F20\u5230\u4E91\u7AEF: aistock sync upload"));
+      console.log(chalk9.blue("  \u{1F4A1} \u4ECE\u4E91\u7AEF\u4E0B\u8F7D: aistock sync download"));
+      console.log(chalk9.blue("  \u{1F4A1} \u667A\u80FD\u5408\u5E76: aistock sync merge"));
       console.log();
     } catch (error) {
       console.error(chalk9.red(`
@@ -3157,42 +3157,42 @@ async function startSyncMenu() {
           const { configCommand: configCommand2 } = await Promise.resolve().then(() => (init_config2(), config_exports));
           const cmd = new Command2();
           configCommand2(cmd);
-          await cmd.parseAsync(["node", "ccman", "config"]);
+          await cmd.parseAsync(["node", "aistock", "config"]);
           break;
         }
         case "test": {
           const { testCommand: testCommand2 } = await Promise.resolve().then(() => (init_test(), test_exports));
           const cmd = new Command2();
           testCommand2(cmd);
-          await cmd.parseAsync(["node", "ccman", "test"]);
+          await cmd.parseAsync(["node", "aistock", "test"]);
           break;
         }
         case "upload": {
           const { uploadCommand: uploadCommand2 } = await Promise.resolve().then(() => (init_upload(), upload_exports));
           const cmd = new Command2();
           uploadCommand2(cmd);
-          await cmd.parseAsync(["node", "ccman", "upload"]);
+          await cmd.parseAsync(["node", "aistock", "upload"]);
           break;
         }
         case "download": {
           const { downloadCommand: downloadCommand2 } = await Promise.resolve().then(() => (init_download(), download_exports));
           const cmd = new Command2();
           downloadCommand2(cmd);
-          await cmd.parseAsync(["node", "ccman", "download"]);
+          await cmd.parseAsync(["node", "aistock", "download"]);
           break;
         }
         case "merge": {
           const { mergeCommand: mergeCommand2 } = await Promise.resolve().then(() => (init_merge2(), merge_exports));
           const cmd = new Command2();
           mergeCommand2(cmd);
-          await cmd.parseAsync(["node", "ccman", "merge"]);
+          await cmd.parseAsync(["node", "aistock", "merge"]);
           break;
         }
         case "status": {
           const { statusCommand: statusCommand2 } = await Promise.resolve().then(() => (init_status(), status_exports));
           const cmd = new Command2();
           statusCommand2(cmd);
-          await cmd.parseAsync(["node", "ccman", "status"]);
+          await cmd.parseAsync(["node", "aistock", "status"]);
           break;
         }
       }
@@ -3233,12 +3233,11 @@ function printLogo() {
   console.log(
     chalk.bold(
       `
-   \u2588\u2588\u2588\u2588\u2588\u2588\u2557 \u2588\u2588\u2588\u2588\u2588\u2588\u2557\u2588\u2588\u2588\u2557   \u2588\u2588\u2588\u2557 \u2588\u2588\u2588\u2588\u2588\u2557 \u2588\u2588\u2588\u2557   \u2588\u2588\u2557
-  \u2588\u2588\u2554\u2550\u2550\u2550\u2550\u255D\u2588\u2588\u2554\u2550\u2550\u2550\u2550\u255D\u2588\u2588\u2588\u2588\u2557 \u2588\u2588\u2588\u2588\u2551\u2588\u2588\u2554\u2550\u2550\u2588\u2588\u2557\u2588\u2588\u2588\u2588\u2557  \u2588\u2588\u2551
-  \u2588\u2588\u2551     \u2588\u2588\u2551     \u2588\u2588\u2554\u2588\u2588\u2588\u2588\u2554\u2588\u2588\u2551\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2551\u2588\u2588\u2554\u2588\u2588\u2557 \u2588\u2588\u2551
-  \u2588\u2588\u2551     \u2588\u2588\u2551     \u2588\u2588\u2551\u255A\u2588\u2588\u2554\u255D\u2588\u2588\u2551\u2588\u2588\u2554\u2550\u2550\u2588\u2588\u2551\u2588\u2588\u2551\u255A\u2588\u2588\u2557\u2588\u2588\u2551
-  \u255A\u2588\u2588\u2588\u2588\u2588\u2588\u2557\u255A\u2588\u2588\u2588\u2588\u2588\u2588\u2557\u2588\u2588\u2551 \u255A\u2550\u255D \u2588\u2588\u2551\u2588\u2588\u2551  \u2588\u2588\u2551\u2588\u2588\u2551 \u255A\u2588\u2588\u2588\u2588\u2551
-   \u255A\u2550\u2550\u2550\u2550\u2550\u255D \u255A\u2550\u2550\u2550\u2550\u2550\u255D\u255A\u2550\u255D     \u255A\u2550\u255D\u255A\u2550\u255D  \u255A\u2550\u255D\u255A\u2550\u255D  \u255A\u2550\u2550\u2550\u255D
+      _    ___ ____ _____ ___   ____ _  __
+     / \\  |_ _/ ___|_   _/ _ \\ / ___| |/ /
+    / _ \\  | |\\___ \\ | || | | | |   | ' /
+   / ___ \\ | | ___) || || |_| | |___| . \\
+  /_/   \\_\\___|____/ |_| \\___/ \\____|_|\\_\\
 `
     )
   );
@@ -3622,7 +3621,7 @@ async function handleAdd(tool) {
     manager.switch(provider.id);
     console.log(chalk11.green("\u2705 \u5DF2\u5207\u6362\u5230\u65B0\u670D\u52A1\u5546\n"));
   } else {
-    console.log(chalk11.blue("\u{1F4A1} \u7A0D\u540E\u5207\u6362:") + chalk11.white(` ccman ${cmd} use "${provider.name}"
+    console.log(chalk11.blue("\u{1F4A1} \u7A0D\u540E\u5207\u6362:") + chalk11.white(` aistock ${cmd} use "${provider.name}"
 `));
   }
 }
@@ -3997,7 +3996,7 @@ function addCommand(program2) {
         console.log(chalk12.gray(`  - ${getCodexConfigPath()}`));
         console.log(chalk12.gray(`  - ${getCodexAuthPath()}`));
       } else {
-        console.log(chalk12.blue("\u{1F4A1} \u7A0D\u540E\u5207\u6362:") + chalk12.white(` ccman cx use "${provider.name}"`));
+        console.log(chalk12.blue("\u{1F4A1} \u7A0D\u540E\u5207\u6362:") + chalk12.white(` aistock cx use "${provider.name}"`));
       }
     } catch (error) {
       console.error(chalk12.red(`
@@ -4019,7 +4018,7 @@ function listCommand(program2) {
       const current = manager.getCurrent();
       if (providers.length === 0) {
         console.log(chalk13.yellow("\n\u26A0\uFE0F  \u6682\u65E0 Codex \u670D\u52A1\u5546\n"));
-        console.log(chalk13.blue("\u{1F4A1} \u6DFB\u52A0\u670D\u52A1\u5546:") + chalk13.white(" ccman cx add\n"));
+        console.log(chalk13.blue("\u{1F4A1} \u6DFB\u52A0\u670D\u52A1\u5546:") + chalk13.white(" aistock cx add\n"));
         return;
       }
       console.log(chalk13.bold(`
@@ -4045,7 +4044,7 @@ function useCommand(program2) {
       const providers = manager.list();
       if (providers.length === 0) {
         console.log(chalk14.yellow("\n\u26A0\uFE0F  \u6682\u65E0 Codex \u670D\u52A1\u5546\n"));
-        console.log(chalk14.blue("\u{1F4A1} \u6DFB\u52A0\u670D\u52A1\u5546:") + chalk14.white(" ccman cx add\n"));
+        console.log(chalk14.blue("\u{1F4A1} \u6DFB\u52A0\u670D\u52A1\u5546:") + chalk14.white(" aistock cx add\n"));
         return;
       }
       let targetId;
@@ -4086,7 +4085,7 @@ function useCommand(program2) {
         console.error(chalk14.red(`
 \u274C \u670D\u52A1\u5546\u4E0D\u5B58\u5728: ${error.message}
 `));
-        console.log(chalk14.blue("\u{1F4A1} \u67E5\u770B\u6240\u6709\u670D\u52A1\u5546:") + chalk14.white(" ccman cx list\n"));
+        console.log(chalk14.blue("\u{1F4A1} \u67E5\u770B\u6240\u6709\u670D\u52A1\u5546:") + chalk14.white(" aistock cx list\n"));
       } else {
         console.error(chalk14.red(`
 \u274C ${error.message}
@@ -4107,7 +4106,7 @@ function currentCommand(program2) {
       const current = manager.getCurrent();
       if (!current) {
         console.log(chalk15.yellow("\n\u26A0\uFE0F  \u672A\u9009\u62E9\u4EFB\u4F55 Codex \u670D\u52A1\u5546\n"));
-        console.log(chalk15.blue("\u{1F4A1} \u9009\u62E9\u670D\u52A1\u5546:") + chalk15.white(" ccman cx use\n"));
+        console.log(chalk15.blue("\u{1F4A1} \u9009\u62E9\u670D\u52A1\u5546:") + chalk15.white(" aistock cx use\n"));
         return;
       }
       console.log(chalk15.bold("\n\u{1F4CD} \u5F53\u524D Codex \u670D\u52A1\u5546\n"));
@@ -4187,7 +4186,7 @@ function removeCommand(program2) {
         console.error(chalk16.red(`
 \u274C \u670D\u52A1\u5546\u4E0D\u5B58\u5728
 `));
-        console.log(chalk16.blue("\u{1F4A1} \u67E5\u770B\u6240\u6709\u670D\u52A1\u5546:") + chalk16.white(" ccman cx list\n"));
+        console.log(chalk16.blue("\u{1F4A1} \u67E5\u770B\u6240\u6709\u670D\u52A1\u5546:") + chalk16.white(" aistock cx list\n"));
       } else {
         console.error(chalk16.red(`
 \u274C ${error.message}
@@ -4475,7 +4474,7 @@ function addCommand2(program2) {
         console.log(chalk19.gray("\u914D\u7F6E\u5DF2\u66F4\u65B0:"));
         console.log(chalk19.gray(`  - ${getClaudeConfigPath()}`));
       } else {
-        console.log(chalk19.blue("\u{1F4A1} \u7A0D\u540E\u5207\u6362:") + chalk19.white(` ccman cc use "${provider.name}"`));
+        console.log(chalk19.blue("\u{1F4A1} \u7A0D\u540E\u5207\u6362:") + chalk19.white(` aistock cc use "${provider.name}"`));
       }
     } catch (error) {
       console.error(chalk19.red(`
@@ -4497,7 +4496,7 @@ function listCommand2(program2) {
       const current = manager.getCurrent();
       if (providers.length === 0) {
         console.log(chalk20.yellow("\n\u26A0\uFE0F  \u6682\u65E0 Claude Code \u670D\u52A1\u5546\n"));
-        console.log(chalk20.blue("\u{1F4A1} \u6DFB\u52A0\u670D\u52A1\u5546:") + chalk20.white(" ccman cc add\n"));
+        console.log(chalk20.blue("\u{1F4A1} \u6DFB\u52A0\u670D\u52A1\u5546:") + chalk20.white(" aistock cc add\n"));
         return;
       }
       console.log(chalk20.bold(`
@@ -4523,7 +4522,7 @@ function useCommand2(program2) {
       const providers = manager.list();
       if (providers.length === 0) {
         console.log(chalk21.yellow("\n\u26A0\uFE0F  \u6682\u65E0 Claude Code \u670D\u52A1\u5546\n"));
-        console.log(chalk21.blue("\u{1F4A1} \u6DFB\u52A0\u670D\u52A1\u5546:") + chalk21.white(" ccman cc add\n"));
+        console.log(chalk21.blue("\u{1F4A1} \u6DFB\u52A0\u670D\u52A1\u5546:") + chalk21.white(" aistock cc add\n"));
         return;
       }
       let targetId;
@@ -4563,7 +4562,7 @@ function useCommand2(program2) {
         console.error(chalk21.red(`
 \u274C \u670D\u52A1\u5546\u4E0D\u5B58\u5728: ${error.message}
 `));
-        console.log(chalk21.blue("\u{1F4A1} \u67E5\u770B\u6240\u6709\u670D\u52A1\u5546:") + chalk21.white(" ccman cc list\n"));
+        console.log(chalk21.blue("\u{1F4A1} \u67E5\u770B\u6240\u6709\u670D\u52A1\u5546:") + chalk21.white(" aistock cc list\n"));
       } else {
         console.error(chalk21.red(`
 \u274C ${error.message}
@@ -4584,7 +4583,7 @@ function currentCommand2(program2) {
       const current = manager.getCurrent();
       if (!current) {
         console.log(chalk22.yellow("\n\u26A0\uFE0F  \u672A\u9009\u62E9\u4EFB\u4F55 Claude Code \u670D\u52A1\u5546\n"));
-        console.log(chalk22.blue("\u{1F4A1} \u9009\u62E9\u670D\u52A1\u5546:") + chalk22.white(" ccman cc use\n"));
+        console.log(chalk22.blue("\u{1F4A1} \u9009\u62E9\u670D\u52A1\u5546:") + chalk22.white(" aistock cc use\n"));
         return;
       }
       console.log(chalk22.bold("\n\u{1F4CD} \u5F53\u524D Claude Code \u670D\u52A1\u5546\n"));
@@ -4664,7 +4663,7 @@ function removeCommand2(program2) {
         console.error(chalk23.red(`
 \u274C \u670D\u52A1\u5546\u4E0D\u5B58\u5728
 `));
-        console.log(chalk23.blue("\u{1F4A1} \u67E5\u770B\u6240\u6709\u670D\u52A1\u5546:") + chalk23.white(" ccman cc list\n"));
+        console.log(chalk23.blue("\u{1F4A1} \u67E5\u770B\u6240\u6709\u670D\u52A1\u5546:") + chalk23.white(" aistock cc list\n"));
       } else {
         console.error(chalk23.red(`
 \u274C ${error.message}
@@ -4861,7 +4860,7 @@ function displayAnalysis() {
     console.log(`  ${chalk26.yellow("\u4E2D\u7B49\u6E05\u7406")} (\u4FDD\u75595\u6761):  ${chalk26.bold(formatBytes2(analysis.estimatedSavings.moderate))}`);
     console.log(`  ${chalk26.red("\u6FC0\u8FDB\u6E05\u7406")} (\u6E05\u7A7A\u5386\u53F2):  ${chalk26.bold(formatBytes2(analysis.estimatedSavings.aggressive))}`);
     console.log();
-    console.log(chalk26.blue(`\u{1F4A1} \u6267\u884C\u6E05\u7406: ccman cc clean
+    console.log(chalk26.blue(`\u{1F4A1} \u6267\u884C\u6E05\u7406: aistock cc clean
 `));
   } catch (error) {
     console.error(chalk26.red(`
@@ -5218,7 +5217,7 @@ function listCommand3(program2) {
       const providers = manager.list();
       if (providers.length === 0) {
         console.log(chalk28.yellow("\n\u26A0\uFE0F  \u6682\u65E0 MCP \u670D\u52A1\u5668\n"));
-        console.log(chalk28.blue("\u{1F4A1} \u6DFB\u52A0 MCP \u670D\u52A1\u5668:") + chalk28.white(" ccman mcp add\n"));
+        console.log(chalk28.blue("\u{1F4A1} \u6DFB\u52A0 MCP \u670D\u52A1\u5668:") + chalk28.white(" aistock mcp add\n"));
         return;
       }
       console.log(chalk28.bold(`
@@ -5318,7 +5317,7 @@ function removeCommand3(program2) {
         console.error(chalk29.red(`
 \u274C MCP \u670D\u52A1\u5668\u4E0D\u5B58\u5728
 `));
-        console.log(chalk29.blue("\u{1F4A1} \u67E5\u770B\u6240\u6709 MCP \u670D\u52A1\u5668:") + chalk29.white(" ccman mcp list\n"));
+        console.log(chalk29.blue("\u{1F4A1} \u67E5\u770B\u6240\u6709 MCP \u670D\u52A1\u5668:") + chalk29.white(" aistock mcp list\n"));
       } else {
         console.error(chalk29.red(`
 \u274C ${error.message}
@@ -5556,7 +5555,7 @@ function addCommand4(program2) {
         console.log(chalk31.gray(`  - ${getGeminiSettingsPath()}`));
         console.log(chalk31.gray(`  - ${getGeminiEnvPath()}`));
       } else {
-        console.log(chalk31.blue("\u{1F4A1} \u7A0D\u540E\u5207\u6362:") + chalk31.white(` ccman gm use "${provider.name}"`));
+        console.log(chalk31.blue("\u{1F4A1} \u7A0D\u540E\u5207\u6362:") + chalk31.white(` aistock gm use "${provider.name}"`));
       }
     } catch (error) {
       console.error(chalk31.red(`
@@ -5578,7 +5577,7 @@ function listCommand4(program2) {
       const current = manager.getCurrent();
       if (providers.length === 0) {
         console.log(chalk32.yellow("\n\u26A0\uFE0F  \u6682\u65E0 Gemini CLI \u670D\u52A1\u5546\n"));
-        console.log(chalk32.blue("\u{1F4A1} \u6DFB\u52A0\u670D\u52A1\u5546:") + chalk32.white(" ccman gm add\n"));
+        console.log(chalk32.blue("\u{1F4A1} \u6DFB\u52A0\u670D\u52A1\u5546:") + chalk32.white(" aistock gm add\n"));
         return;
       }
       console.log(chalk32.bold(`
@@ -5604,7 +5603,7 @@ function useCommand3(program2) {
       const providers = manager.list();
       if (providers.length === 0) {
         console.log(chalk33.yellow("\n\u26A0\uFE0F  \u6682\u65E0 Gemini CLI \u670D\u52A1\u5546\n"));
-        console.log(chalk33.blue("\u{1F4A1} \u6DFB\u52A0\u670D\u52A1\u5546:") + chalk33.white(" ccman gm add\n"));
+        console.log(chalk33.blue("\u{1F4A1} \u6DFB\u52A0\u670D\u52A1\u5546:") + chalk33.white(" aistock gm add\n"));
         return;
       }
       let targetId;
@@ -5645,7 +5644,7 @@ function useCommand3(program2) {
         console.error(chalk33.red(`
 \u274C \u670D\u52A1\u5546\u4E0D\u5B58\u5728: ${error.message}
 `));
-        console.log(chalk33.blue("\u{1F4A1} \u67E5\u770B\u6240\u6709\u670D\u52A1\u5546:") + chalk33.white(" ccman gm list\n"));
+        console.log(chalk33.blue("\u{1F4A1} \u67E5\u770B\u6240\u6709\u670D\u52A1\u5546:") + chalk33.white(" aistock gm list\n"));
       } else {
         console.error(chalk33.red(`
 \u274C ${error.message}
@@ -5666,7 +5665,7 @@ function currentCommand3(program2) {
       const current = manager.getCurrent();
       if (!current) {
         console.log(chalk34.yellow("\n\u26A0\uFE0F  \u5F53\u524D\u6CA1\u6709\u6FC0\u6D3B\u7684 Gemini CLI \u670D\u52A1\u5546\n"));
-        console.log(chalk34.blue("\u{1F4A1} \u5217\u51FA\u670D\u52A1\u5546:") + chalk34.white(" ccman gm list\n"));
+        console.log(chalk34.blue("\u{1F4A1} \u5217\u51FA\u670D\u52A1\u5546:") + chalk34.white(" aistock gm list\n"));
         return;
       }
       console.log(chalk34.bold("\n\u{1F3AF} \u5F53\u524D Gemini CLI \u670D\u52A1\u5546\n"));
@@ -5693,7 +5692,7 @@ function removeCommand4(program2) {
       const providers = manager.list();
       if (providers.length === 0) {
         console.log(chalk35.yellow("\n\u26A0\uFE0F  \u6682\u65E0 Gemini CLI \u670D\u52A1\u5546\n"));
-        console.log(chalk35.blue("\u{1F4A1} \u6DFB\u52A0\u670D\u52A1\u5546:") + chalk35.white(" ccman gm add\n"));
+        console.log(chalk35.blue("\u{1F4A1} \u6DFB\u52A0\u670D\u52A1\u5546:") + chalk35.white(" aistock gm add\n"));
         return;
       }
       let targetId;
@@ -5758,7 +5757,7 @@ function editCommand4(program2) {
       const providers = manager.list();
       if (providers.length === 0) {
         console.log(chalk36.yellow("\n\u26A0\uFE0F  \u6682\u65E0 Gemini CLI \u670D\u52A1\u5546\n"));
-        console.log(chalk36.blue("\u{1F4A1} \u6DFB\u52A0\u670D\u52A1\u5546:") + chalk36.white(" ccman gm add\n"));
+        console.log(chalk36.blue("\u{1F4A1} \u6DFB\u52A0\u670D\u52A1\u5546:") + chalk36.white(" aistock gm add\n"));
         return;
       }
       let targetId;
@@ -5819,7 +5818,7 @@ function cloneCommand3(program2) {
       const providers = manager.list();
       if (providers.length === 0) {
         console.log(chalk37.yellow("\n\u26A0\uFE0F  \u6682\u65E0 Gemini CLI \u670D\u52A1\u5546\n"));
-        console.log(chalk37.blue("\u{1F4A1} \u6DFB\u52A0\u670D\u52A1\u5546:") + chalk37.white(" ccman gm add\n"));
+        console.log(chalk37.blue("\u{1F4A1} \u6DFB\u52A0\u670D\u52A1\u5546:") + chalk37.white(" aistock gm add\n"));
         return;
       }
       let sourceId;
@@ -6004,7 +6003,7 @@ function addCommand5(program2) {
         console.log(chalk38.gray("\u914D\u7F6E\u5DF2\u66F4\u65B0:"));
         console.log(chalk38.gray(`  - ${getOpenCodeConfigPath()}`));
       } else {
-        console.log(chalk38.blue("\u{1F4A1} \u7A0D\u540E\u5207\u6362:") + chalk38.white(` ccman oc use "${provider.name}"`));
+        console.log(chalk38.blue("\u{1F4A1} \u7A0D\u540E\u5207\u6362:") + chalk38.white(` aistock oc use "${provider.name}"`));
       }
     } catch (error) {
       console.error(chalk38.red(`
@@ -6026,7 +6025,7 @@ function listCommand5(program2) {
       const current = manager.getCurrent();
       if (providers.length === 0) {
         console.log(chalk39.yellow("\n\u26A0\uFE0F  \u6682\u65E0 OpenCode \u670D\u52A1\u5546\n"));
-        console.log(chalk39.blue("\u{1F4A1} \u6DFB\u52A0\u670D\u52A1\u5546:") + chalk39.white(" ccman oc add\n"));
+        console.log(chalk39.blue("\u{1F4A1} \u6DFB\u52A0\u670D\u52A1\u5546:") + chalk39.white(" aistock oc add\n"));
         return;
       }
       console.log(chalk39.bold(`
@@ -6052,7 +6051,7 @@ function useCommand4(program2) {
       const providers = manager.list();
       if (providers.length === 0) {
         console.log(chalk40.yellow("\n\u26A0\uFE0F  \u6682\u65E0 OpenCode \u670D\u52A1\u5546\n"));
-        console.log(chalk40.blue("\u{1F4A1} \u6DFB\u52A0\u670D\u52A1\u5546:") + chalk40.white(" ccman oc add\n"));
+        console.log(chalk40.blue("\u{1F4A1} \u6DFB\u52A0\u670D\u52A1\u5546:") + chalk40.white(" aistock oc add\n"));
         return;
       }
       let targetId;
@@ -6109,7 +6108,7 @@ function currentCommand4(program2) {
       const current = manager.getCurrent();
       if (!current) {
         console.log(chalk41.yellow("\n\u26A0\uFE0F  \u5F53\u524D\u6CA1\u6709\u6FC0\u6D3B\u7684 OpenCode \u670D\u52A1\u5546\n"));
-        console.log(chalk41.blue("\u{1F4A1} \u5217\u51FA\u670D\u52A1\u5546:") + chalk41.white(" ccman oc list\n"));
+        console.log(chalk41.blue("\u{1F4A1} \u5217\u51FA\u670D\u52A1\u5546:") + chalk41.white(" aistock oc list\n"));
         return;
       }
       console.log(chalk41.bold("\n\u{1F3AF} \u5F53\u524D OpenCode \u670D\u52A1\u5546\n"));
@@ -6136,7 +6135,7 @@ function editCommand5(program2) {
       const providers = manager.list();
       if (providers.length === 0) {
         console.log(chalk42.yellow("\n\u26A0\uFE0F  \u6682\u65E0 OpenCode \u670D\u52A1\u5546\n"));
-        console.log(chalk42.blue("\u{1F4A1} \u6DFB\u52A0\u670D\u52A1\u5546:") + chalk42.white(" ccman oc add\n"));
+        console.log(chalk42.blue("\u{1F4A1} \u6DFB\u52A0\u670D\u52A1\u5546:") + chalk42.white(" aistock oc add\n"));
         return;
       }
       let targetId;
@@ -6497,7 +6496,7 @@ function addCommand6(program2) {
         console.log(chalk38.gray("\u914D\u7F6E\u5DF2\u66F4\u65B0:"));
         console.log(chalk38.gray(`  - ${getOpenClawConfigPath()}`));
       } else {
-        console.log(chalk38.blue("\u{1F4A1} \u7A0D\u540E\u5207\u6362:") + chalk38.white(` ccman claw use "${provider.name}"`));
+        console.log(chalk38.blue("\u{1F4A1} \u7A0D\u540E\u5207\u6362:") + chalk38.white(` aistock claw use "${provider.name}"`));
       }
     } catch (error) {
       console.error(chalk38.red(`
@@ -6516,7 +6515,7 @@ function listCommand6(program2) {
       const current = manager.getCurrent();
       if (providers.length === 0) {
         console.log(chalk38.yellow("\n\u26A0\uFE0F  \u6682\u65E0 OpenClaw \u670D\u52A1\u5546\n"));
-        console.log(chalk38.blue("\u{1F4A1} \u6DFB\u52A0\u670D\u52A1\u5546:") + chalk38.white(" ccman claw add\n"));
+        console.log(chalk38.blue("\u{1F4A1} \u6DFB\u52A0\u670D\u52A1\u5546:") + chalk38.white(" aistock claw add\n"));
         return;
       }
       console.log(chalk38.bold(`
@@ -6538,7 +6537,7 @@ function useCommand5(program2) {
       const providers = manager.list();
       if (providers.length === 0) {
         console.log(chalk38.yellow("\n\u26A0\uFE0F  \u6682\u65E0 OpenClaw \u670D\u52A1\u5546\n"));
-        console.log(chalk38.blue("\u{1F4A1} \u6DFB\u52A0\u670D\u52A1\u5546:") + chalk38.white(" ccman claw add\n"));
+        console.log(chalk38.blue("\u{1F4A1} \u6DFB\u52A0\u670D\u52A1\u5546:") + chalk38.white(" aistock claw add\n"));
         return;
       }
       let targetId;
@@ -6592,7 +6591,7 @@ function currentCommand5(program2) {
       const current = manager.getCurrent();
       if (!current) {
         console.log(chalk38.yellow("\n\u26A0\uFE0F  \u5F53\u524D\u6CA1\u6709\u6FC0\u6D3B\u7684 OpenClaw \u670D\u52A1\u5546\n"));
-        console.log(chalk38.blue("\u{1F4A1} \u5217\u51FA\u670D\u52A1\u5546:") + chalk38.white(" ccman claw list\n"));
+        console.log(chalk38.blue("\u{1F4A1} \u5217\u51FA\u670D\u52A1\u5546:") + chalk38.white(" aistock claw list\n"));
         return;
       }
       console.log(chalk38.bold("\n\u{1F3AF} \u5F53\u524D OpenClaw \u670D\u52A1\u5546\n"));
@@ -6615,7 +6614,7 @@ function editCommand6(program2) {
       const providers = manager.list();
       if (providers.length === 0) {
         console.log(chalk38.yellow("\n\u26A0\uFE0F  \u6682\u65E0 OpenClaw \u670D\u52A1\u5546\n"));
-        console.log(chalk38.blue("\u{1F4A1} \u6DFB\u52A0\u670D\u52A1\u5546:") + chalk38.white(" ccman claw add\n"));
+        console.log(chalk38.blue("\u{1F4A1} \u6DFB\u52A0\u670D\u52A1\u5546:") + chalk38.white(" aistock claw add\n"));
         return;
       }
       let targetId;
@@ -6845,7 +6844,7 @@ function exportCommand(program2) {
         console.log(`  ${chalk45.cyan("\u2713")} ${file}`);
       }
       console.log();
-      console.log(chalk45.blue(`\u{1F4A1} \u5BFC\u5165\u547D\u4EE4: ccman import ${resolvedPath}
+      console.log(chalk45.blue(`\u{1F4A1} \u5BFC\u5165\u547D\u4EE4: aistock import ${resolvedPath}
 `));
     } catch (error) {
       console.error(chalk45.red(`
@@ -6928,7 +6927,7 @@ function importCommand(program2) {
         console.log(`  ${chalk46.cyan("\u2713")} ${file}`);
       }
       console.log();
-      console.log(chalk46.blue("\u{1F4A1} \u8BF7\u4F7F\u7528 'ccman cx use' \u6216 'ccman cc use' \u5207\u6362\u670D\u52A1\u5546\n"));
+      console.log(chalk46.blue("\u{1F4A1} \u8BF7\u4F7F\u7528 'aistock cx use' \u6216 'aistock cc use' \u5207\u6362\u670D\u52A1\u5546\n"));
     } catch (error) {
       console.error(chalk46.red(`
 \u274C ${error.message}
@@ -6972,7 +6971,7 @@ function printBanner() {
         " \u2588\u2588\u2551   \u2588\u2588\u2551 \u2588\u2588\u2551\u255A\u2588\u2588\u2554\u255D\u2588\u2588\u2551\u2588\u2588\u2551\u255A\u2588\u2588\u2557\u2588\u2588\u2551",
         " \u255A\u2588\u2588\u2588\u2588\u2588\u2588\u2554\u255D \u2588\u2588\u2551 \u255A\u2550\u255D \u2588\u2588\u2551\u2588\u2588\u2551 \u255A\u2588\u2588\u2588\u2588\u2551",
         "  \u255A\u2550\u2550\u2550\u2550\u2550\u255D  \u255A\u2550\u255D     \u255A\u2550\u255D\u255A\u2550\u255D  \u255A\u2550\u2550\u2550\u255D",
-        "  CCMAN  GMN \u4E00\u952E\u914D\u7F6E\u5411\u5BFC"
+        "  Aistock  GMN \u4E00\u952E\u914D\u7F6E\u5411\u5BFC"
       ].join("\n")
     )
   );
@@ -7167,14 +7166,14 @@ ${renderStep(4, TOTAL_STEPS, "\u5F00\u59CB\u5199\u5165\u914D\u7F6E")}`));
 init_dist2();
 if (process.env.NODE_ENV === "development") {
   console.log(chalk48.gray("\n[\u5F00\u53D1\u6A21\u5F0F] \u914D\u7F6E\u76EE\u5F55:"));
-  console.log(chalk48.gray(`  ccman: ${getCcmanDir()}`));
+  console.log(chalk48.gray(`  aistock: ${getCcmanDir()}`));
   console.log(chalk48.gray(`  codex:  ${getCodexDir()}`));
   console.log(chalk48.gray(`  claude: ${getClaudeDir()}`));
   console.log(chalk48.gray(`  opencode: ${getOpenCodeDir()}`));
   console.log();
 }
 var program = new Command3();
-program.name("ccman").description("Codex/Claude Code/Gemini/OpenCode API \u670D\u52A1\u5546\u914D\u7F6E\u7BA1\u7406\u5DE5\u5177").version(VERSION).showHelpAfterError(false).exitOverride((err) => {
+program.name("aistock").description("Codex/Claude Code/Gemini/OpenCode API \u670D\u52A1\u5546\u914D\u7F6E\u7BA1\u7406\u5DE5\u5177").version(VERSION).showHelpAfterError(false).exitOverride((err) => {
   if (err.code === "commander.helpDisplayed" || err.code === "commander.version") {
     process.exit(0);
   }
@@ -7192,11 +7191,11 @@ program.on("command:*", (operands) => {
   if (suggestions.length > 0) {
     console.log(chalk48.yellow("\u{1F4A1} \u4F60\u662F\u4E0D\u662F\u60F3\u8F93\u5165:"));
     suggestions.forEach((cmd) => {
-      console.log(chalk48.cyan(`   ccman ${cmd}`));
+      console.log(chalk48.cyan(`   aistock ${cmd}`));
     });
     console.log();
   }
-  console.log(chalk48.gray("\u67E5\u770B\u6240\u6709\u53EF\u7528\u547D\u4EE4: ") + chalk48.cyan("ccman --help"));
+  console.log(chalk48.gray("\u67E5\u770B\u6240\u6709\u53EF\u7528\u547D\u4EE4: ") + chalk48.cyan("aistock --help"));
   console.log();
   process.exit(1);
 });

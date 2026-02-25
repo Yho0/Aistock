@@ -1,4 +1,4 @@
-# ccman
+# Aistock
 
 > Codex、Claude Code、Gemini CLI、OpenCode 和 MCP 的配置管理工具，一键切换 API 服务商配置和管理 MCP 服务器。
 
@@ -19,9 +19,9 @@
 
 ---
 
-## 也许你不需要 ccman
+## 也许你不需要 Aistock
 
-ccman 的核心功能是自动化配置文件的切换：
+Aistock 的核心功能是自动化配置文件的切换：
 
 - **Codex**：自动修改 `~/.codex/config.toml`
 - **Claude Code**：自动修改 `~/.claude/settings.json`
@@ -32,19 +32,19 @@ ccman 的核心功能是自动化配置文件的切换：
 
 如果你更喜欢手动编辑配置文件，或者只使用一个服务商从不切换，可能不需要这个工具。
 
-📖 更多信息：[GitHub 仓库](https://github.com/2ue/ccman) - 包含手动配置方式和详细对比分析
+📖 更多信息：[GitHub 仓库](https://github.com/Yho0/ccman-openclaw-version) - 包含手动配置方式和详细对比分析
 
 ---
 
 ## 安装
 
 ```bash
-npm install -g ccman
+npm install -g aistock
 ```
 
 **要求**：Node.js >= 18.0.0
 
-**Desktop 版本**：如果你更喜欢图形界面，可以从 [GitHub Releases](https://github.com/2ue/ccman/releases) 下载 Desktop 应用（macOS/Windows/Linux）。
+**Desktop 版本**：如果你更喜欢图形界面，可以从 [GitHub Releases](https://github.com/Yho0/ccman-openclaw-version/releases) 下载 Desktop 应用（macOS/Windows/Linux）。
 
 ---
 
@@ -53,9 +53,9 @@ npm install -g ccman
 ### 查看帮助
 
 ```bash
-$ ccman --help
+$ aistock --help
 
-Usage: ccman [options] [command]
+Usage: aistock [options] [command]
 
 Codex/Claude Code/Gemini/OpenCode API 服务商配置管理工具
 
@@ -78,16 +78,16 @@ Commands:
 ### 管理 Codex 服务商
 
 ```bash
-ccman cx           # 进入交互式菜单
-ccman cx add       # 添加服务商
-ccman cx use       # 切换服务商
-ccman cx list      # 查看所有服务商
+aistock cx           # 进入交互式菜单
+aistock cx add       # 添加服务商
+aistock cx use       # 切换服务商
+aistock cx list      # 查看所有服务商
 ```
 
 **示例输出**：
 
 ```bash
-$ ccman cx list
+$ aistock cx list
 
 📋 Codex 服务商 (2 个)
 
@@ -99,7 +99,7 @@ $ ccman cx list
 ```
 
 ```bash
-$ ccman cx current
+$ aistock cx current
 
 📍 当前 Codex 服务商
 
@@ -112,16 +112,16 @@ $ ccman cx current
 ### 管理 Claude Code 服务商
 
 ```bash
-ccman cc           # 进入交互式菜单
-ccman cc add       # 添加服务商
-ccman cc use       # 切换服务商
-ccman cc list      # 查看所有服务商
+aistock cc           # 进入交互式菜单
+aistock cc add       # 添加服务商
+aistock cc use       # 切换服务商
+aistock cc list      # 查看所有服务商
 ```
 
 **示例输出**：
 
 ```bash
-$ ccman cc list
+$ aistock cc list
 
 📋 Claude Code 服务商 (1 个)
 
@@ -130,7 +130,7 @@ $ ccman cc list
 ```
 
 ```bash
-$ ccman cc current
+$ aistock cc current
 
 📍 当前 Claude Code 服务商
 
@@ -143,28 +143,28 @@ $ ccman cc current
 ### 管理 Gemini CLI 服务商
 
 ```bash
-ccman gm           # 进入交互式菜单
-ccman gm add       # 添加服务商
-ccman gm use       # 切换服务商
-ccman gm list      # 查看所有服务商
+aistock gm           # 进入交互式菜单
+aistock gm add       # 添加服务商
+aistock gm use       # 切换服务商
+aistock gm list      # 查看所有服务商
 ```
 
 ### 管理 OpenCode 服务商
 
 ```bash
-ccman oc           # 进入交互式菜单
-ccman oc add       # 添加服务商
-ccman oc use       # 切换服务商
-ccman oc list      # 查看所有服务商
+aistock oc           # 进入交互式菜单
+aistock oc add       # 添加服务商
+aistock oc use       # 切换服务商
+aistock oc list      # 查看所有服务商
 ```
 
 ### 管理 MCP 服务器
 
 ```bash
-ccman mcp add      # 添加 MCP 服务器
-ccman mcp list     # 查看所有 MCP 服务器
-ccman mcp edit     # 编辑 MCP 服务器
-ccman mcp remove   # 删除 MCP 服务器
+aistock mcp add      # 添加 MCP 服务器
+aistock mcp list     # 查看所有 MCP 服务器
+aistock mcp edit     # 编辑 MCP 服务器
+aistock mcp remove   # 删除 MCP 服务器
 ```
 
 ---
@@ -173,52 +173,52 @@ ccman mcp remove   # 删除 MCP 服务器
 
 | 命令 | 说明 |
 |------|------|
-| `ccman` | 主菜单（选择 Codex、Claude Code、Gemini CLI 或 OpenCode） |
+| `aistock` | 主菜单（选择 Codex、Claude Code、Gemini CLI 或 OpenCode） |
 | **Codex 管理** | |
-| `ccman cx` | Codex 交互式菜单 |
-| `ccman cx add` | 添加 Codex 服务商（支持预设模板和自定义） |
-| `ccman cx list` | 列出所有 Codex 服务商 |
-| `ccman cx use [name]` | 切换 Codex 服务商 |
-| `ccman cx current` | 查看当前 Codex 服务商 |
-| `ccman cx edit [name]` | 编辑 Codex 服务商 |
-| `ccman cx remove [name]` | 删除 Codex 服务商 |
-| `ccman cx clone [source]` | 克隆 Codex 服务商 |
+| `aistock cx` | Codex 交互式菜单 |
+| `aistock cx add` | 添加 Codex 服务商（支持预设模板和自定义） |
+| `aistock cx list` | 列出所有 Codex 服务商 |
+| `aistock cx use [name]` | 切换 Codex 服务商 |
+| `aistock cx current` | 查看当前 Codex 服务商 |
+| `aistock cx edit [name]` | 编辑 Codex 服务商 |
+| `aistock cx remove [name]` | 删除 Codex 服务商 |
+| `aistock cx clone [source]` | 克隆 Codex 服务商 |
 | **Claude Code 管理** | |
-| `ccman cc` | Claude Code 交互式菜单 |
-| `ccman cc add` | 添加 Claude Code 服务商 |
-| `ccman cc list` | 列出所有 Claude Code 服务商 |
-| `ccman cc use [name]` | 切换 Claude Code 服务商 |
-| `ccman cc current` | 查看当前 Claude Code 服务商 |
-| `ccman cc edit [name]` | 编辑 Claude Code 服务商 |
-| `ccman cc remove [name]` | 删除 Claude Code 服务商 |
-| `ccman cc clone [source]` | 克隆 Claude Code 服务商 |
+| `aistock cc` | Claude Code 交互式菜单 |
+| `aistock cc add` | 添加 Claude Code 服务商 |
+| `aistock cc list` | 列出所有 Claude Code 服务商 |
+| `aistock cc use [name]` | 切换 Claude Code 服务商 |
+| `aistock cc current` | 查看当前 Claude Code 服务商 |
+| `aistock cc edit [name]` | 编辑 Claude Code 服务商 |
+| `aistock cc remove [name]` | 删除 Claude Code 服务商 |
+| `aistock cc clone [source]` | 克隆 Claude Code 服务商 |
 | **Gemini CLI 管理** | |
-| `ccman gm` | Gemini CLI 交互式菜单 |
-| `ccman gm add` | 添加 Gemini CLI 服务商 |
-| `ccman gm list` | 列出所有 Gemini CLI 服务商 |
-| `ccman gm use [name]` | 切换 Gemini CLI 服务商 |
-| `ccman gm current` | 查看当前 Gemini CLI 服务商 |
-| `ccman gm edit [name]` | 编辑 Gemini CLI 服务商 |
-| `ccman gm remove [name]` | 删除 Gemini CLI 服务商 |
-| `ccman gm clone [source]` | 克隆 Gemini CLI 服务商 |
+| `aistock gm` | Gemini CLI 交互式菜单 |
+| `aistock gm add` | 添加 Gemini CLI 服务商 |
+| `aistock gm list` | 列出所有 Gemini CLI 服务商 |
+| `aistock gm use [name]` | 切换 Gemini CLI 服务商 |
+| `aistock gm current` | 查看当前 Gemini CLI 服务商 |
+| `aistock gm edit [name]` | 编辑 Gemini CLI 服务商 |
+| `aistock gm remove [name]` | 删除 Gemini CLI 服务商 |
+| `aistock gm clone [source]` | 克隆 Gemini CLI 服务商 |
 | **OpenCode 管理** | |
-| `ccman oc` | OpenCode 交互式菜单 |
-| `ccman oc add` | 添加 OpenCode 服务商 |
-| `ccman oc list` | 列出所有 OpenCode 服务商 |
-| `ccman oc use [name]` | 切换 OpenCode 服务商 |
-| `ccman oc current` | 查看当前 OpenCode 服务商 |
-| `ccman oc edit [name]` | 编辑 OpenCode 服务商 |
-| `ccman oc remove [name]` | 删除 OpenCode 服务商 |
-| `ccman oc clone [source]` | 克隆 OpenCode 服务商 |
+| `aistock oc` | OpenCode 交互式菜单 |
+| `aistock oc add` | 添加 OpenCode 服务商 |
+| `aistock oc list` | 列出所有 OpenCode 服务商 |
+| `aistock oc use [name]` | 切换 OpenCode 服务商 |
+| `aistock oc current` | 查看当前 OpenCode 服务商 |
+| `aistock oc edit [name]` | 编辑 OpenCode 服务商 |
+| `aistock oc remove [name]` | 删除 OpenCode 服务商 |
+| `aistock oc clone [source]` | 克隆 OpenCode 服务商 |
 | **MCP 服务器管理** | |
-| `ccman mcp add` | 添加 MCP 服务器 |
-| `ccman mcp list` | 列出所有 MCP 服务器 |
-| `ccman mcp edit [name]` | 编辑 MCP 服务器 |
-| `ccman mcp remove [name]` | 删除 MCP 服务器 |
+| `aistock mcp add` | 添加 MCP 服务器 |
+| `aistock mcp list` | 列出所有 MCP 服务器 |
+| `aistock mcp edit [name]` | 编辑 MCP 服务器 |
+| `aistock mcp remove [name]` | 删除 MCP 服务器 |
 | **配置同步和导入导出** | |
-| `ccman sync` | WebDAV 同步配置（备份/恢复/合并） |
-| `ccman export [dir]` | 导出配置到本地目录 |
-| `ccman import [dir]` | 从本地目录导入配置 |
+| `aistock sync` | WebDAV 同步配置（备份/恢复/合并） |
+| `aistock export [dir]` | 导出配置到本地目录 |
+| `aistock import [dir]` | 从本地目录导入配置 |
 
 ---
 
@@ -269,7 +269,7 @@ MCP 服务器预设包括：filesystem、github、postgres、brave-search、fetc
 
 ```bash
 # 1. 查看当前列表
-$ ccman cx list
+$ aistock cx list
 
 📋 Codex 服务商 (1 个)
 
@@ -277,20 +277,20 @@ $ ccman cx list
      https://api.openai.com/v1
 
 # 2. 添加 GMN（交互式）
-$ ccman cx add
+$ aistock cx add
 ? 选择配置方式 › 使用预设模板
 ? 选择预设 › GMN
 ? 服务商名称 › GMN
 ? API Key › ••••••••••••••••••••
 ✅ 添加成功！
-💡 切换到此服务商: ccman cx use GMN
+💡 切换到此服务商: aistock cx use GMN
 
 # 3. 切换到 GMN
-$ ccman cx use GMN
+$ aistock cx use GMN
 ✅ 已切换到: GMN
 
 # 4. 确认当前服务商
-$ ccman cx current
+$ aistock cx current
 
 📍 当前 Codex 服务商
 
@@ -304,7 +304,7 @@ $ ccman cx current
 
 ```bash
 # 1. 添加生产配置
-$ ccman cc add
+$ aistock cc add
 ? 选择配置方式 › 自定义配置
 ? 服务商名称 › Claude Production
 ? Base URL › https://api.anthropic.com
@@ -312,15 +312,15 @@ $ ccman cc add
 ✅ 添加成功！
 
 # 2. 克隆创建测试配置
-$ ccman cc clone
+$ aistock cc clone
 ? 选择要克隆的服务商 › Claude Production
 ? 新服务商名称 › Claude Test
 ? API Key › ••••••••••••••••••••
 ✅ 克隆成功！
-💡 切换到此服务商: ccman cc use "Claude Test"
+💡 切换到此服务商: aistock cc use "Claude Test"
 
 # 3. 查看列表
-$ ccman cc list
+$ aistock cc list
 
 📋 Claude Code 服务商 (2 个)
 
@@ -331,7 +331,7 @@ $ ccman cc list
      https://api.anthropic.com
 
 # 4. 快速切换
-$ ccman cc use "Claude Test"
+$ aistock cc use "Claude Test"
 ✅ 已切换到: Claude Test
 ```
 
@@ -339,14 +339,14 @@ $ ccman cc use "Claude Test"
 
 ## 配置文件
 
-**ccman 配置**：
+**Aistock 配置**：
 - `~/.ccman/codex.json` - Codex 服务商配置
 - `~/.ccman/claude.json` - Claude Code 服务商配置
 - `~/.ccman/gemini.json` - Gemini CLI 服务商配置
 - `~/.ccman/opencode.json` - OpenCode 服务商配置
 - `~/.ccman/mcp.json` - MCP 服务器配置
 
-**工具配置**（ccman 会自动修改）：
+**工具配置**（Aistock 会自动修改）：
 - **Codex**: `~/.codex/config.toml`
 - **Claude Code**: `~/.claude/settings.json`
 - **Gemini CLI**: `~/.gemini/settings.json` 和 `~/.gemini/.env`
@@ -365,7 +365,7 @@ $ ccman cc use "Claude Test"
 A: 当前版本不支持。如需备份，手动复制 `~/.ccman/` 目录。
 
 **Q: WebDAV 同步是什么？**
-A: 将 ccman 配置同步到 WebDAV 服务器（如 iCloud/Dropbox），多设备共享配置。详见 `ccman sync --help`。
+A: 将 Aistock 配置同步到 WebDAV 服务器（如 iCloud/Dropbox），多设备共享配置。详见 `aistock sync --help`。
 
 ---
 
@@ -377,7 +377,7 @@ MIT
 
 ## 相关链接
 
-- [GitHub 仓库](https://github.com/2ue/ccman)
-- [问题反馈](https://github.com/2ue/ccman/issues)
-- [更新日志](https://github.com/2ue/ccman/blob/main/CHANGELOG.md)
-- [Desktop 版本](https://github.com/2ue/ccman/releases)（图形界面）
+- [GitHub 仓库](https://github.com/Yho0/ccman-openclaw-version)
+- [问题反馈](https://github.com/Yho0/ccman-openclaw-version/issues)
+- [更新日志](https://github.com/Yho0/ccman-openclaw-version/blob/main/CHANGELOG.md)
+- [Desktop 版本](https://github.com/Yho0/ccman-openclaw-version/releases)（图形界面）

@@ -4,7 +4,7 @@
 
 model = "gpt-5.1-code-max"
 
-# model_provider 与 model_providers 由 ccman 根据当前服务商自动写入
+# model_provider 与 model_providers 由 Aistock 根据当前服务商自动写入
 # 如需手动指定可自行在此添加:
 # model_provider = "YourProviderName"
 
