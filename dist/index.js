@@ -608,19 +608,9 @@ var init_codex2 = __esm({
     "use strict";
     CODEX_PRESETS = [
       {
-        name: "OpenAI Official",
-        baseUrl: "https://api.openai.com/v1",
-        description: "OpenAI \u5B98\u65B9 API"
-      },
-      {
-        name: "GMN",
-        baseUrl: "https://gmn.chuangzuoli.cn/openai",
-        description: "GMN \u670D\u52A1 (OpenAI/Codex \u517C\u5BB9)"
-      },
-      {
-        name: "GMN (COM)",
-        baseUrl: "https://gmn.chuangzuoli.com",
-        description: "GMN \u670D\u52A1 (OpenAI/Codex \u517C\u5BB9)"
+        name: "AISTOCK Official",
+        baseUrl: "https://www.aistock.tech",
+        description: "AISTOCK \u9ED8\u8BA4\u670D\u52A1\u5730\u5740"
       }
     ];
   }
@@ -3230,19 +3220,21 @@ import chalk48 from "chalk";
 init_dist2();
 import chalk from "chalk";
 function printLogo() {
-  console.log(
-    chalk.bold(
-      `
-      _    ___ ____ _____ ___   ____ _  __
-     / \\  |_ _/ ___|_   _/ _ \\ / ___| |/ /
-    / _ \\  | |\\___ \\ | || | | | |   | ' /
-   / ___ \\ | | ___) || || |_| | |___| . \\
-  /_/   \\_\\___|____/ |_| \\___/ \\____|_|\\_\\
-`
-    )
-  );
-  console.log(chalk.gray("  \u591A\u5DE5\u5177 AI \u670D\u52A1\u5546\u914D\u7F6E\u7BA1\u7406\u5DE5\u5177"));
-  console.log(chalk.gray(`  \u7248\u672C ${VERSION}
+  const logoLines = [
+    " █████╗ ██╗███████╗████████╗ ██████╗  ██████╗██╗  ██╗",
+    "██╔══██╗██║██╔════╝╚══██╔══╝██╔═══██╗██╔════╝██║ ██╔╝",
+    "███████║██║███████╗   ██║   ██║   ██║██║     █████╔╝ ",
+    "██╔══██║██║╚════██║   ██║   ██║   ██║██║     ██╔═██╗ ",
+    "██║  ██║██║███████║   ██║   ╚██████╔╝╚██████╗██║  ██╗",
+    "╚═╝  ╚═╝╚═╝╚══════╝   ╚═╝    ╚═════╝  ╚═════╝╚═╝  ╚═╝"
+  ];
+  const textPalette = ["#ff4d4f", "#ff7a45", "#faad14", "#73d13d", "#36cfc9", "#40a9ff"];
+  logoLines.forEach((line, i) => {
+    console.log(chalk.bgHex("#0b1220").hex(textPalette[i]).bold(` ${line} `));
+  });
+  console.log(chalk.bgHex("#1677ff").white.bold("                         AISTOCK CLI                         "));
+  console.log(chalk.cyanBright.bold("  Codex-only Provider Manager"));
+  console.log(chalk.gray(`  Version ${VERSION}
 `));
 }
 
@@ -3383,13 +3375,7 @@ async function startMainMenu() {
         name: "choice",
         message: "\u8BF7\u9009\u62E9\u64CD\u4F5C:",
         choices: [
-          { name: "\u{1F537} Claude \u7BA1\u7406", value: "claude" },
           { name: "\u{1F536} Codex \u7BA1\u7406", value: "codex" },
-          { name: "\u{1F48E} Gemini \u7BA1\u7406", value: "gemini" },
-          { name: "\u{1F9E9} OpenCode \u7BA1\u7406", value: "opencode" },
-          { name: "\u{1F98E} OpenClaw \u7BA1\u7406", value: "openclaw" },
-          { name: "\u{1F504} WebDAV \u540C\u6B65", value: "sync" },
-          { name: "\u{1F4E6} \u9884\u7F6E\u670D\u52A1\u5546\u7BA1\u7406", value: "presets" },
           { name: "\u274C \u9000\u51FA", value: "exit" }
         ]
       }
@@ -3398,21 +3384,8 @@ async function startMainMenu() {
       console.log(chalk11.gray("\n\u{1F44B} \u518D\u89C1!\n"));
       break;
     }
-    if (choice === "claude") {
-      await startClaudeMenu();
-    } else if (choice === "codex") {
+    if (choice === "codex") {
       await startCodexMenu();
-    } else if (choice === "gemini") {
-      await startGeminiMenu();
-    } else if (choice === "opencode") {
-      await startOpenCodeMenu();
-    } else if (choice === "openclaw") {
-      await startOpenClawMenu();
-    } else if (choice === "sync") {
-      const { startSyncMenu: startSyncMenu2 } = await Promise.resolve().then(() => (init_sync(), sync_exports));
-      await startSyncMenu2();
-    } else if (choice === "presets") {
-      await showPresetsMenu();
     }
   }
 }
@@ -6971,7 +6944,7 @@ function printBanner() {
         " \u2588\u2588\u2551   \u2588\u2588\u2551 \u2588\u2588\u2551\u255A\u2588\u2588\u2554\u255D\u2588\u2588\u2551\u2588\u2588\u2551\u255A\u2588\u2588\u2557\u2588\u2588\u2551",
         " \u255A\u2588\u2588\u2588\u2588\u2588\u2588\u2554\u255D \u2588\u2588\u2551 \u255A\u2550\u255D \u2588\u2588\u2551\u2588\u2588\u2551 \u255A\u2588\u2588\u2588\u2588\u2551",
         "  \u255A\u2550\u2550\u2550\u2550\u2550\u255D  \u255A\u2550\u255D     \u255A\u2550\u255D\u255A\u2550\u255D  \u255A\u2550\u2550\u2550\u255D",
-        "  Aistock  GMN \u4E00\u952E\u914D\u7F6E\u5411\u5BFC"
+        "  AISTOCK  GMN \u4E00\u952E\u914D\u7F6E\u5411\u5BFC"
       ].join("\n")
     )
   );
@@ -7173,7 +7146,7 @@ if (process.env.NODE_ENV === "development") {
   console.log();
 }
 var program = new Command3();
-program.name("aistock").description("Codex/Claude Code/Gemini/OpenCode API \u670D\u52A1\u5546\u914D\u7F6E\u7BA1\u7406\u5DE5\u5177").version(VERSION).showHelpAfterError(false).exitOverride((err) => {
+program.name("aistock").description("Codex API \u670D\u52A1\u5546\u914D\u7F6E\u7BA1\u7406\u5DE5\u5177").version(VERSION).showHelpAfterError(false).exitOverride((err) => {
   if (err.code === "commander.helpDisplayed" || err.code === "commander.version") {
     process.exit(0);
   }
@@ -7184,7 +7157,7 @@ program.on("command:*", (operands) => {
   console.error(chalk48.red(`
 \u274C \u672A\u77E5\u547D\u4EE4: ${unknownCommand}
 `));
-  const availableCommands = ["cx", "cc", "gm", "oc", "claw", "mcp", "sync", "export", "import", "gmn"];
+  const availableCommands = ["cx"];
   const suggestions = availableCommands.filter(
     (cmd) => cmd.includes(unknownCommand) || unknownCommand.includes(cmd)
   );
@@ -7204,46 +7177,6 @@ createCodexCommands(cx);
 cx.action(async () => {
   printLogo();
   await startCodexMenu();
-});
-var cc = program.command("cc").description("\u7BA1\u7406 Claude \u670D\u52A1\u5546");
-createClaudeCommands(cc);
-cc.action(async () => {
-  printLogo();
-  await startClaudeMenu();
-});
-var gm = program.command("gm").description("\u7BA1\u7406 Gemini CLI \u670D\u52A1\u5546");
-createGeminiCommands(gm);
-gm.action(async () => {
-  printLogo();
-  await startGeminiMenu();
-});
-var oc = program.command("oc").description("\u7BA1\u7406 OpenCode \u670D\u52A1\u5546");
-createOpenCodeCommands(oc);
-oc.action(async () => {
-  printLogo();
-  await startOpenCodeMenu();
-});
-var claw = program.command("claw").description("\u7BA1\u7406 OpenClaw \u670D\u52A1\u5546");
-createOpenClawCommands(claw);
-claw.action(async () => {
-  printLogo();
-  claw.help();
-});
-var mcp = program.command("mcp").description("\u7BA1\u7406 MCP \u670D\u52A1\u5668");
-createMCPCommands(mcp);
-mcp.action(() => {
-  mcp.help();
-});
-var sync = program.command("sync").description("WebDAV \u540C\u6B65\u914D\u7F6E");
-createSyncCommands(sync);
-sync.action(async () => {
-  printLogo();
-  await startSyncMenu();
-});
-exportCommand(program);
-importCommand(program);
-program.command("gmn [apiKey]").description("\u914D\u7F6E GMN \u5230\u6240\u6709\u5DE5\u5177").option("-p, --platform <platforms>", "\u6307\u5B9A\u5E73\u53F0 (claude,codex,gemini,opencode,all)").option("-d, --domain <domain>", "\u9009\u62E9 OpenAI \u7AEF\u70B9 (cn|com)").action(async (apiKey, options) => {
-  await gmnCommand(apiKey, options.platform, options.domain);
 });
 (async () => {
   if (!process.argv.slice(2).length) {
