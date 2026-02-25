@@ -15,7 +15,7 @@ var init_package = __esm({
   "../core/package.json"() {
     package_default = {
       name: "@ccman/core",
-      version: "3.3.4",
+      version: "3.3.5",
       type: "module",
       description: "Core business logic for aistock - Manage Codex, Claude Code, Gemini CLI, and MCP configurations",
       main: "./dist/index.js",
