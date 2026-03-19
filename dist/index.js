@@ -307,7 +307,7 @@ function writeCodexConfig(provider) {
   const templateConfig = loadCodexTemplateConfig();
   const mergedConfig = deepMerge(templateConfig, userConfig);
   mergedConfig.model_provider = provider.name;
-  mergedConfig.model = provider.model || mergedConfig.model || "gpt-5-codex";
+  mergedConfig.model = provider.model || mergedConfig.model || "gpt-5.4";
   mergedConfig.model_providers = mergedConfig.model_providers || {};
   mergedConfig.model_providers[provider.name] = {
     name: provider.name,
@@ -337,10 +337,10 @@ var init_codex = __esm({
     __filename = fileURLToPath(import.meta.url);
     __dirname = path3.dirname(__filename);
     CODEX_DEFAULT_CONFIG = {
-      model: "gpt-5.1",
+      model: "gpt-5.4",
       model_reasoning_effort: "high",
       disable_response_storage: true,
-      sandbox_mode: "workspace-write",
+      sandbox_mode: "danger-full-access",
       windows_wsl_setup_acknowledged: true,
       approval_policy: "never",
       profile: "auto-max",
@@ -356,13 +356,7 @@ var init_codex = __esm({
         ignore_default_excludes: false
       },
       features: {
-        plan_tool: true,
-        apply_patch_freeform: true,
-        view_image_tool: true,
-        web_search_request: true,
-        unified_exec: false,
-        streamable_shell: false,
-        rmcp_client: true
+        multi_agent: true
       },
       sandbox_workspace_write: {
         network_access: true
@@ -370,15 +364,12 @@ var init_codex = __esm({
       profiles: {
         "auto-max": {
           approval_policy: "never",
-          sandbox_mode: "workspace-write"
+          sandbox_mode: "danger-full-access"
         },
         "review": {
           approval_policy: "on-request",
           sandbox_mode: "workspace-write"
         }
-      },
-      notice: {
-        hide_gpt5_1_migration_prompt: true
       }
     };
   }
