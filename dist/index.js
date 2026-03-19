@@ -3241,6 +3241,63 @@ import chalk11 from "chalk";
 
 // src/utils/format.ts
 import chalk2 from "chalk";
+var CODEX_DEFAULT_MODEL = "gpt-5.4";
+var CODEX_LEGACY_MODEL = "gpt-5.2-codex";
+var CODEX_PACKAGE_OPTIONS = [
+  {
+    value: CODEX_DEFAULT_MODEL,
+    label: "\u9876\u7EA7\u7CFB\u5217\u6A21\u578B",
+    description: `\u9ED8\u8BA4\u4F7F\u7528 ${CODEX_DEFAULT_MODEL}`
+  },
+  {
+    value: CODEX_LEGACY_MODEL,
+    label: "gpt-5.2 \u7CFB\u5217\u8001\u7248\u672C\u6A21\u578B",
+    description: `\u9ED8\u8BA4\u4F7F\u7528 ${CODEX_LEGACY_MODEL}`
+  }
+];
+function normalizeCodexModel(model) {
+  if (!model || typeof model !== "string") return "";
+  return model.trim();
+}
+function getEffectiveCodexModel(model) {
+  return normalizeCodexModel(model) || CODEX_DEFAULT_MODEL;
+}
+function resolveCodexPackage(model) {
+  const normalized = getEffectiveCodexModel(model).toLowerCase();
+  if (normalized.startsWith("gpt-5.2")) return CODEX_PACKAGE_OPTIONS[1];
+  if (normalized.startsWith("gpt-5.4")) return CODEX_PACKAGE_OPTIONS[0];
+  return null;
+}
+function getCodexPackageChoices(currentModel) {
+  const normalized = normalizeCodexModel(currentModel);
+  const choices = CODEX_PACKAGE_OPTIONS.map((option) => ({
+    name: `${option.label} (${option.value}) - ${option.description}`,
+    value: option.value
+  }));
+  if (normalized && !resolveCodexPackage(normalized)) {
+    choices.push({
+      name: `\u4FDD\u7559\u5F53\u524D\u81EA\u5B9A\u4E49\u6A21\u578B (${normalized})`,
+      value: normalized
+    });
+  }
+  return choices;
+}
+function getCodexPackageDefault(currentModel) {
+  const normalized = normalizeCodexModel(currentModel);
+  const resolved = resolveCodexPackage(normalized);
+  return resolved?.value || normalized || CODEX_DEFAULT_MODEL;
+}
+function getCodexPackageSummary(model) {
+  const normalized = normalizeCodexModel(model);
+  const resolved = resolveCodexPackage(normalized);
+  if (resolved) {
+    return `${resolved.label} (${resolved.value})`;
+  }
+  if (normalized) {
+    return `\u81EA\u5B9A\u4E49\u6A21\u578B (${normalized})`;
+  }
+  return `${CODEX_PACKAGE_OPTIONS[0].label} (${CODEX_DEFAULT_MODEL})`;
+}
 function formatProviderTable(providers, currentId) {
   const lines = [];
   lines.push("");
@@ -3252,6 +3309,30 @@ function formatProviderTable(providers, currentId) {
     lines.push(`  ${marker}  ${name}${tag}`);
     const url = isCurrent ? chalk2.green(p.baseUrl) : chalk2.gray(p.baseUrl);
     lines.push(`     ${url}`);
+    if (p.desc) {
+      const desc = isCurrent ? chalk2.green(p.desc) : chalk2.gray(p.desc);
+      lines.push(`     ${desc}`);
+    }
+    if (index < providers.length - 1) {
+      lines.push("");
+    }
+  });
+  lines.push("");
+  return lines.join("\n");
+}
+function formatCodexProviderTable(providers, currentId) {
+  const lines = [];
+  lines.push("");
+  providers.forEach((p, index) => {
+    const isCurrent = p.id === currentId;
+    const marker = isCurrent ? chalk2.green("\u25CF") : chalk2.gray("\u25CB");
+    const name = isCurrent ? chalk2.green.bold(p.name) : chalk2.white(p.name);
+    const tag = isCurrent ? chalk2.green(" [\u5F53\u524D]") : "";
+    lines.push(`  ${marker}  ${name}${tag}`);
+    const url = isCurrent ? chalk2.green(p.baseUrl) : chalk2.gray(p.baseUrl);
+    lines.push(`     ${url}`);
+    const packageSummary = isCurrent ? chalk2.green(getCodexPackageSummary(p.model)) : chalk2.gray(getCodexPackageSummary(p.model));
+    lines.push(`     \u5957\u9910: ${packageSummary}`);
     if (p.desc) {
       const desc = isCurrent ? chalk2.green(p.desc) : chalk2.gray(p.desc);
       lines.push(`     ${desc}`);
@@ -3542,6 +3623,18 @@ async function handleAdd(tool) {
     apiKey = answers.apiKey;
   }
   let model;
+  if (tool === TOOL_TYPES.CODEX) {
+    const { codexModel } = await inquirer7.prompt([
+      {
+        type: "list",
+        name: "codexModel",
+        message: "\u9009\u62E9\u5957\u9910:",
+        choices: getCodexPackageChoices(),
+        default: getCodexPackageDefault()
+      }
+    ]);
+    model = codexModel;
+  }
   if (tool === TOOL_TYPES.OPENCODE) {
     const { npmPackage } = await inquirer7.prompt([
       {
@@ -3572,6 +3665,9 @@ async function handleAdd(tool) {
   console.log();
   console.log(`  ${chalk11.bold(provider.name)} ${chalk11.blue(`[${toolName}]`)}`);
   console.log(`  ${chalk11.gray(provider.baseUrl)}`);
+  if (tool === TOOL_TYPES.CODEX) {
+    console.log(`  ${chalk11.gray(`\u5957\u9910: ${getCodexPackageSummary(provider.model)}`)}`);
+  }
   console.log();
   const { switchNow } = await inquirer7.prompt([
     {
@@ -3598,21 +3694,40 @@ async function handleSwitch(tool) {
     return;
   }
   const { providerId } = await inquirer7.prompt([
-    {
-      type: "list",
-      name: "providerId",
-      message: "\u9009\u62E9\u8981\u5207\u6362\u7684\u670D\u52A1\u5546:",
-      choices: providers.map((p) => ({
-        name: `${p.name}${current?.id === p.id ? chalk11.green(" (\u5F53\u524D)") : ""}`,
-        value: p.id
-      }))
-    }
+      {
+        type: "list",
+        name: "providerId",
+        message: "\u9009\u62E9\u8981\u5207\u6362\u7684\u670D\u52A1\u5546:",
+        choices: providers.map((p) => ({
+          name: tool === TOOL_TYPES.CODEX ? `${p.name} - ${getCodexPackageSummary(p.model)}${current?.id === p.id ? chalk11.green(" (\u5F53\u524D)") : ""}` : `${p.name}${current?.id === p.id ? chalk11.green(" (\u5F53\u524D)") : ""}`,
+          value: p.id
+        }))
+      }
   ]);
+  if (tool === TOOL_TYPES.CODEX) {
+    const provider2 = manager.get(providerId);
+    const { codexModel } = await inquirer7.prompt([
+      {
+        type: "list",
+        name: "codexModel",
+        message: "\u9009\u62E9\u5957\u9910:",
+        choices: getCodexPackageChoices(provider2.model),
+        default: getCodexPackageDefault(provider2.model)
+      }
+    ]);
+    if (provider2.model !== codexModel || getEffectiveCodexModel(provider2.model) !== codexModel) {
+      manager.edit(providerId, { model: codexModel });
+    }
+  }
   manager.switch(providerId);
-  const provider = providers.find((p) => p.id === providerId);
+  const provider = manager.get(providerId);
   console.log(chalk11.green(`
 \u2705 \u5DF2\u5207\u6362\u5230: ${provider.name}
 `));
+  if (tool === TOOL_TYPES.CODEX) {
+    console.log(chalk11.gray(`\u5957\u9910: ${getCodexPackageSummary(provider.model)}`));
+    console.log();
+  }
 }
 async function handleList(tool) {
   const manager = getManager(tool);
@@ -3627,7 +3742,7 @@ async function handleList(tool) {
   }
   console.log(chalk11.bold(`
 \u{1F4CB} ${toolName} \u670D\u52A1\u5546 (${providers.length} \u4E2A)`));
-  console.log(formatProviderTable(providers, current?.id));
+  console.log(tool === TOOL_TYPES.CODEX ? formatCodexProviderTable(providers, current?.id) : formatProviderTable(providers, current?.id));
 }
 async function handleCurrent(tool) {
   const manager = getManager(tool);
@@ -3644,6 +3759,9 @@ async function handleCurrent(tool) {
 `));
   console.log(`  ${chalk11.green.bold(current.name)}`);
   console.log(`  ${chalk11.gray(current.baseUrl)}`);
+  if (tool === TOOL_TYPES.CODEX) {
+    console.log(`  ${chalk11.gray(`\u5957\u9910: ${getCodexPackageSummary(current.model)}`)}`);
+  }
   if (current.lastUsedAt) {
     const date = new Date(current.lastUsedAt).toLocaleString("zh-CN");
     console.log(`  ${chalk11.gray(`\u6700\u540E\u4F7F\u7528: ${date}`)}`);
@@ -3706,6 +3824,18 @@ async function handleEdit(tool) {
     }
   ]);
   let model;
+  if (tool === TOOL_TYPES.CODEX) {
+    const { codexModel } = await inquirer7.prompt([
+      {
+        type: "list",
+        name: "codexModel",
+        message: "\u9009\u62E9\u5957\u9910:",
+        choices: getCodexPackageChoices(provider.model),
+        default: getCodexPackageDefault(provider.model)
+      }
+    ]);
+    model = codexModel;
+  }
   if (tool === TOOL_TYPES.OPENCODE) {
     const { npmPackage } = await inquirer7.prompt([
       {
@@ -3777,6 +3907,18 @@ async function handleClone(tool) {
     }
   ]);
   let model;
+  if (tool === TOOL_TYPES.CODEX) {
+    const { codexModel } = await inquirer7.prompt([
+      {
+        type: "list",
+        name: "codexModel",
+        message: "\u9009\u62E9\u5957\u9910:",
+        choices: getCodexPackageChoices(provider.model),
+        default: getCodexPackageDefault(provider.model)
+      }
+    ]);
+    model = codexModel;
+  }
   if (tool === TOOL_TYPES.OPENCODE) {
     const { npmPackage } = await inquirer7.prompt([
       {
@@ -3937,12 +4079,22 @@ function addCommand(program2) {
         baseUrl = answers.baseUrl;
         apiKey = answers.apiKey;
       }
-      const provider = manager.add({ name, desc, baseUrl, apiKey });
+      const { codexModel } = await inquirer8.prompt([
+        {
+          type: "list",
+          name: "codexModel",
+          message: "\u9009\u62E9\u5957\u9910:",
+          choices: getCodexPackageChoices(),
+          default: getCodexPackageDefault()
+        }
+      ]);
+      const provider = manager.add({ name, desc, baseUrl, apiKey, model: codexModel });
       console.log();
       console.log(chalk12.green("\u2705 \u6DFB\u52A0\u6210\u529F"));
       console.log();
       console.log(`  ${chalk12.bold(provider.name)} ${chalk12.blue("[Codex]")}`);
       console.log(`  ${chalk12.gray(provider.baseUrl)}`);
+      console.log(`  ${chalk12.gray(`\u5957\u9910: ${getCodexPackageSummary(provider.model)}`)}`);
       console.log();
       const { switchNow } = await inquirer8.prompt([
         {
@@ -3987,7 +4139,7 @@ function listCommand(program2) {
       }
       console.log(chalk13.bold(`
 \u{1F4CB} Codex \u670D\u52A1\u5546 (${providers.length} \u4E2A)`));
-      console.log(formatProviderTable(providers, current?.id));
+      console.log(formatCodexProviderTable(providers, current?.id));
     } catch (error) {
       console.error(chalk13.red(`
 \u274C ${error.message}
@@ -4025,12 +4177,27 @@ function useCommand(program2) {
             name: "selectedId",
             message: "\u9009\u62E9\u8981\u5207\u6362\u7684\u670D\u52A1\u5546:",
             choices: providers.map((p) => ({
-              name: `${p.name} - ${p.baseUrl}`,
+              name: `${p.name} - ${p.baseUrl} - ${getCodexPackageSummary(p.model)}`,
               value: p.id
             }))
           }
         ]);
         targetId = selectedId;
+      }
+      const targetProvider = manager.get(targetId);
+      if (process.stdin.isTTY) {
+        const { codexModel } = await inquirer9.prompt([
+          {
+            type: "list",
+            name: "codexModel",
+            message: "\u9009\u62E9\u5957\u9910:",
+            choices: getCodexPackageChoices(targetProvider.model),
+            default: getCodexPackageDefault(targetProvider.model)
+          }
+        ]);
+        if (targetProvider.model !== codexModel || getEffectiveCodexModel(targetProvider.model) !== codexModel) {
+          manager.edit(targetId, { model: codexModel });
+        }
       }
       manager.switch(targetId);
       const provider = manager.get(targetId);
@@ -4039,6 +4206,7 @@ function useCommand(program2) {
       console.log();
       console.log(`  ${chalk14.bold(provider.name)} ${chalk14.blue("[Codex]")}`);
       console.log(`  ${chalk14.gray(`URL: ${provider.baseUrl}`)}`);
+      console.log(`  ${chalk14.gray(`\u5957\u9910: ${getCodexPackageSummary(provider.model)}`)}`);
       console.log();
       console.log(chalk14.gray("\u914D\u7F6E\u5DF2\u66F4\u65B0:"));
       console.log(chalk14.gray(`  - ${getCodexConfigPath()}`));
@@ -4077,6 +4245,7 @@ function currentCommand(program2) {
       console.log(`  ${chalk15.green.bold(current.name)}`);
       console.log(`  ${chalk15.gray(`ID: ${current.id}`)}`);
       console.log(`  ${chalk15.gray(`URL: ${current.baseUrl}`)}`);
+      console.log(`  ${chalk15.gray(`\u5957\u9910: ${getCodexPackageSummary(current.model)}`)}`);
       if (current.lastUsedAt) {
         const date = new Date(current.lastUsedAt).toLocaleString("zh-CN");
         console.log(`  ${chalk15.gray(`\u6700\u540E\u4F7F\u7528: ${date}`)}`);
@@ -4224,10 +4393,20 @@ function editCommand(program2) {
           mask: "*"
         }
       ]);
+      const { codexModel } = await inquirer11.prompt([
+        {
+          type: "list",
+          name: "codexModel",
+          message: "\u9009\u62E9\u5957\u9910:",
+          choices: getCodexPackageChoices(provider.model),
+          default: getCodexPackageDefault(provider.model)
+        }
+      ]);
       const updates = {};
       if (answers.name && answers.name !== provider.name) updates.name = answers.name;
       if (answers.baseUrl && answers.baseUrl !== provider.baseUrl) updates.baseUrl = answers.baseUrl;
       if (answers.apiKey) updates.apiKey = answers.apiKey;
+      if (provider.model !== codexModel || getEffectiveCodexModel(provider.model) !== codexModel) updates.model = codexModel;
       if (Object.keys(updates).length === 0) {
         console.log(chalk17.gray("\n\u672A\u505A\u4EFB\u4F55\u4FEE\u6539\n"));
         return;
@@ -4239,6 +4418,7 @@ function editCommand(program2) {
       console.log(`  ${chalk17.bold(updated.name)} ${chalk17.blue("[Codex]")}`);
       console.log(`  ${chalk17.gray(`ID: ${updated.id}`)}`);
       console.log(`  ${chalk17.gray(`URL: ${updated.baseUrl}`)}`);
+      console.log(`  ${chalk17.gray(`\u5957\u9910: ${getCodexPackageSummary(updated.model)}`)}`);
       console.log();
     } catch (error) {
       console.error(chalk17.red(`
@@ -4298,7 +4478,16 @@ function cloneCommand(program2) {
           baseUrl: source.baseUrl,
           apiKey: source.apiKey
         });
-        cloned = manager.add(input);
+        const { codexModel } = await inquirer12.prompt([
+          {
+            type: "list",
+            name: "codexModel",
+            message: "\u9009\u62E9\u5957\u9910:",
+            choices: getCodexPackageChoices(source.model),
+            default: getCodexPackageDefault(source.model)
+          }
+        ]);
+        cloned = manager.add({ ...input, model: codexModel });
       }
       console.log();
       console.log(chalk18.green("\u2705 \u514B\u9686\u6210\u529F"));
@@ -4306,6 +4495,7 @@ function cloneCommand(program2) {
       console.log(`  ${chalk18.bold(cloned.name)} ${chalk18.blue("[Codex]")}`);
       console.log(`  ${chalk18.gray(`ID: ${cloned.id}`)}`);
       console.log(`  ${chalk18.gray(`URL: ${cloned.baseUrl}`)}`);
+      console.log(`  ${chalk18.gray(`\u5957\u9910: ${getCodexPackageSummary(cloned.model)}`)}`);
       console.log();
     } catch (error) {
       console.error(chalk18.red(`
