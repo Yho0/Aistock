@@ -15,7 +15,7 @@ var init_package = __esm({
   "../core/package.json"() {
     package_default = {
       name: "@ccman/core",
-      version: "3.3.5",
+      version: "3.3.7",
       type: "module",
       description: "Core business logic for aistock - Manage Codex, Claude Code, Gemini CLI, and MCP configurations",
       main: "./dist/index.js",
@@ -3548,6 +3548,21 @@ async function handleAdd(tool) {
   console.log(chalk11.bold(`
 \u{1F4DD} \u6DFB\u52A0 ${toolName} \u670D\u52A1\u5546
 `));
+  let model;
+  if (tool === TOOL_TYPES.CODEX) {
+    const { codexModel } = await inquirer7.prompt([
+      {
+        type: "list",
+        name: "codexModel",
+        message: "\u5148\u9009\u62E9\u5957\u9910:",
+        choices: getCodexPackageChoices(),
+        default: getCodexPackageDefault()
+      }
+    ]);
+    model = codexModel;
+    console.log(chalk11.gray(`\u5DF2\u9009\u5957\u9910: ${getCodexPackageSummary(model)}`));
+    console.log();
+  }
   const { usePreset } = await inquirer7.prompt([
     {
       type: "list",
@@ -3621,19 +3636,6 @@ async function handleAdd(tool) {
     desc = void 0;
     baseUrl = answers.baseUrl;
     apiKey = answers.apiKey;
-  }
-  let model;
-  if (tool === TOOL_TYPES.CODEX) {
-    const { codexModel } = await inquirer7.prompt([
-      {
-        type: "list",
-        name: "codexModel",
-        message: "\u9009\u62E9\u5957\u9910:",
-        choices: getCodexPackageChoices(),
-        default: getCodexPackageDefault()
-      }
-    ]);
-    model = codexModel;
   }
   if (tool === TOOL_TYPES.OPENCODE) {
     const { npmPackage } = await inquirer7.prompt([
@@ -3999,6 +4001,17 @@ function addCommand(program2) {
     try {
       const manager = createCodexManager();
       console.log(chalk12.bold("\n\u{1F4DD} \u6DFB\u52A0 Codex \u670D\u52A1\u5546\n"));
+      const { codexModel } = await inquirer8.prompt([
+        {
+          type: "list",
+          name: "codexModel",
+          message: "\u5148\u9009\u62E9\u5957\u9910:",
+          choices: getCodexPackageChoices(),
+          default: getCodexPackageDefault()
+        }
+      ]);
+      console.log(chalk12.gray(`\u5DF2\u9009\u5957\u9910: ${getCodexPackageSummary(codexModel)}`));
+      console.log();
       const { usePreset } = await inquirer8.prompt([
         {
           type: "list",
@@ -4079,15 +4092,6 @@ function addCommand(program2) {
         baseUrl = answers.baseUrl;
         apiKey = answers.apiKey;
       }
-      const { codexModel } = await inquirer8.prompt([
-        {
-          type: "list",
-          name: "codexModel",
-          message: "\u9009\u62E9\u5957\u9910:",
-          choices: getCodexPackageChoices(),
-          default: getCodexPackageDefault()
-        }
-      ]);
       const provider = manager.add({ name, desc, baseUrl, apiKey, model: codexModel });
       console.log();
       console.log(chalk12.green("\u2705 \u6DFB\u52A0\u6210\u529F"));
